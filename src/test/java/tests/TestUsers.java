@@ -21,12 +21,15 @@ public class TestUsers extends TestBase {
     String login = "admin";
     String password = "123";
     //поля пользователя
+    String adlogin = "@kinef.lcl";
     String kadrid = "1112223334";
     String tabel = "1112223334";
     String userpassword = "123";
     String email = "123@ya.ru";
     String activechek = "Активный";
-    String usertype = "Нет типа";
+    String usertypenone = "Нет типа";
+    String usertypexpert = "Эксперт";
+    String usertypservice = "Служебный сервис";
     //поля основания
     String reason = "because";
     String type = "because2";
@@ -53,6 +56,7 @@ public class TestUsers extends TestBase {
                 .setUsetName(String.valueOf(word))
                 .setUserPatronymic(String.valueOf(word))
                 .setUserLogin(String.valueOf(word))
+                .setUserAdlogin(word + adlogin)
                 .setUserKadrId(kadrid)
                 .setUserTabel(tabel)
                 .setUserPassword(userpassword)
@@ -71,7 +75,8 @@ public class TestUsers extends TestBase {
                 String.valueOf(word),
                 String.valueOf(word),
                 String.valueOf(word),
-                kadrid, email, activechek, usertype);
+                word + adlogin,
+                kadrid, email, activechek, usertypenone);
 
     }
 
@@ -114,10 +119,13 @@ public class TestUsers extends TestBase {
                 .setUsetName(String.valueOf(word2))
                 .setUserPatronymic(String.valueOf(word2))
                 .setUserLogin(String.valueOf(word2))
+                .setUserAdlogin(word + adlogin)
                 .setUserKadrId(kadrid)
                 .setUserTabel(tabel)
                 .setUserPassword(password)
                 .setUserEmail(email);
+        //выбираю чек-бокс Служебный сервис
+        userPageComponents.setServiceCheckbox();
         //ввожу основание
         userPageComponents.reasonForm(reason, type, number, name, date);
         //кликаю подтвердить
@@ -134,7 +142,8 @@ public class TestUsers extends TestBase {
                 String.valueOf(word2),
                 String.valueOf(word2),
                 String.valueOf(word2),
-                kadrid, email, activechek, usertype);
+                word + adlogin,
+                kadrid, email, activechek, usertypservice);
 
     }
 
@@ -177,6 +186,50 @@ public class TestUsers extends TestBase {
         userPageObjects.userSearch(String.valueOf(word));
         //убеждаюсь что список пуст
         userPageComponents.emptyTableCheck();
+    }
+
+    @Test
+    @Feature("Тестирование влкадки пользователи")
+    @Story("Создание, редактирование, удаление пользователя")
+    @DisplayName("User expert rights create")
+    public void userExpertCreate() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+
+        String word = String.valueOf(randomUtils.randomString());
+
+        userPageComponents.openLoginPage();
+        userPageComponents.authorizeSupd(login, password);
+        userPageComponents.userCreateButton();
+        //ввожу данные пользователя
+        userPageObjects
+                .setUserSurname(String.valueOf(word))
+                .setUsetName(String.valueOf(word))
+                .setUserPatronymic(String.valueOf(word))
+                .setUserLogin(String.valueOf(word))
+                .setUserAdlogin(word + adlogin)
+                .setUserKadrId(kadrid)
+                .setUserTabel(tabel)
+                .setUserPassword(userpassword)
+                .setUserEmail(email);
+        //выбираю чек-бокс эксперта
+        userPageComponents.setExpertCheckbox();
+        //ввожу основание
+        userPageComponents.reasonForm(reason, type, number, name, date);
+        //кликаю создать
+        userPageComponents.userCreateSubmitButton();
+        //проверяю пользователя в таблице
+        userPageObjects.newUserCheck(String.valueOf(word));
+        //кликаю кнопку информации
+        userPageComponents.clickInfoButton();
+        //сверяю данные
+        userPageComponents.userInfoCheck(
+                String.valueOf(word),
+                String.valueOf(word),
+                String.valueOf(word),
+                String.valueOf(word),
+                word + adlogin,
+                kadrid, email, activechek, usertypexpert);
+
     }
 
 }

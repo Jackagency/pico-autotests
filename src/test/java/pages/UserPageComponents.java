@@ -55,12 +55,13 @@ public class UserPageComponents {
     }
 
     @Step("Сверяем информацию о созданном пользователе")
-    public UserPageComponents userInfoCheck(String surname, String name, String patronymic, String login, String kadrid, String email, String isactive, String type) {
+    public UserPageComponents userInfoCheck(String surname, String name, String patronymic, String login, String adlogin, String kadrid, String email, String isactive, String type) {
 
         SelenideElement userInfoSurname = $("#user_info_surname");
         SelenideElement userInfoName = $("#user_info_name");
         SelenideElement userInfoPatronymic = $("#user_info_patronymic");
         SelenideElement userInfoLogin = $("#user_info_login");
+        SelenideElement userInfoAdLogin = $("#user_info_ldap_login");
         SelenideElement userInfoKadrId = $("#user_info_kadr_id");
         SelenideElement userInfoEmail = $("#user_info_email");
         SelenideElement userInfoActive = $("#user_info_active");
@@ -70,6 +71,7 @@ public class UserPageComponents {
         userInfoName.shouldHave(text(name));
         userInfoPatronymic.shouldHave(text(patronymic));
         userInfoLogin.shouldHave(text(login));
+        userInfoAdLogin.shouldHave(text(adlogin));
         userInfoKadrId.scrollIntoView(false).shouldHave(text(kadrid));
         userInfoEmail.scrollIntoView(false).shouldHave(text(email));
         userInfoActive.scrollIntoView(false).shouldHave(text(isactive));
@@ -140,6 +142,21 @@ public class UserPageComponents {
     public UserPageComponents emptyTableCheck() {
         SelenideElement emptyTableSign = $(".dx-datagrid-nodata");
         emptyTableSign.shouldBe(visible).shouldHave(text("Нет данных"));
+        return this;
+
+    }
+
+    @Step("Выбираем чек-бокс Эксперт")
+    public UserPageComponents setExpertCheckbox() {
+        SelenideElement expertCheckBox = $("#user_account_type :nth-child(1) .dx-radio-value-container");
+        expertCheckBox.shouldBe(visible).click();
+        return this;
+    }
+
+    @Step("Выбираем чек-бокс Служебный сервис")
+    public UserPageComponents setServiceCheckbox() {
+        SelenideElement serviceCheckbox = $("#user_account_type :nth-child(2) > div.dx-radio-value-container");
+        serviceCheckbox.shouldBe(visible).click();
         return this;
     }
 

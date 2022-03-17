@@ -16,6 +16,7 @@ public class UserPageObjects {
     SelenideElement userNameInput = $("#user_name");
     SelenideElement userPatronymicInput = $("#user_patronymic");
     SelenideElement userLoginInput = $("#user_login");
+    SelenideElement userAdLoginInput = $("#user_ad_login");
     SelenideElement userKadrIdInput = $("#user_kadr_id");
     SelenideElement userTabelInput = $("#user_add_identity");
     SelenideElement userPasswordInput = $("#user_password");
@@ -45,6 +46,11 @@ public class UserPageObjects {
     @Step("Вносим Логин пользователя")
     public UserPageObjects setUserLogin(String login) {
         userLoginInput.setValue(login);
+        return this;
+    }
+    @Step("Вносим AD login  пользователя")
+    public UserPageObjects setUserAdlogin(String adlogin) {
+        userAdLoginInput.scrollIntoView(false).setValue(adlogin);
         return this;
     }
     @Step("Вносим Kadr ID  пользователя")
