@@ -160,5 +160,20 @@ public class UserPageComponents {
         return this;
     }
 
+    @Step("Выбираем чек-бокс Временный")
+    public UserPageComponents setTemporaryCheckbox() {
+        SelenideElement temporaryCheckbox = $("#user_temporary");
+        temporaryCheckbox.shouldBe(visible).click();
+        return this;
+    }
+
+    @Step("Проверяем сообщения о некорректной дате временного пользователя")
+    public UserPageComponents wrongTemporaryDateChek() {
+        SelenideElement wrongTemporaryDateStart = $("#user_temporary");
+        SelenideElement wrongTemporaryDateEnd = $("#user_temporary");
+        wrongTemporaryDateEnd.shouldBe(visible).click();
+        return this;
+    }
+
 
 }

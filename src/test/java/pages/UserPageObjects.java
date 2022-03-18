@@ -21,6 +21,8 @@ public class UserPageObjects {
     SelenideElement userTabelInput = $("#user_add_identity");
     SelenideElement userPasswordInput = $("#user_password");
     SelenideElement userEmailInput = $("#user_email");
+    SelenideElement userTemporaryDateStart = $("#user_temporary_date_start");
+    SelenideElement userTemporaryDateDate = $("#user_temporary_date_end");
 
     SelenideElement firstLineInTheTable = $(".dx-column-lines", 1);
 
@@ -90,6 +92,12 @@ public class UserPageObjects {
     @Step("Ищем пользователя через поиск")
     public UserPageObjects userSearch(String value){
         userSearchInput.setValue(value).pressEnter();
+        return this;
+    }
+    @Step("Устанавливаем период существования временного пользователя")
+    public UserPageObjects setTemporaryUserPeriod(String start, String end){
+        userTemporaryDateStart.setValue(start).pressEnter();
+        userTemporaryDateDate.setValue(end).pressEnter();
         return this;
     }
 

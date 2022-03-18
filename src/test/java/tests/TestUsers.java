@@ -232,5 +232,47 @@ public class TestUsers extends TestBase {
 
     }
 
+    @Test
+    @Feature("Тестирование влкадки пользователи")
+    @Story("Создание, редактирование, удаление пользователя")
+    @DisplayName("Temporary user create")
+    public void temporaryUserCreate() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+
+        String word = String.valueOf(randomUtils.randomString());
+
+        userPageComponents.openLoginPage();
+        userPageComponents.authorizeSupd(login, password);
+        userPageComponents.userCreateButton();
+        //ввожу данные пользователя
+        userPageObjects
+                .setUserSurname(String.valueOf(word))
+                .setUsetName(String.valueOf(word))
+                .setUserPatronymic(String.valueOf(word))
+                .setUserLogin(String.valueOf(word))
+                .setUserAdlogin(word + adlogin)
+                .setUserKadrId(kadrid)
+                .setUserTabel(tabel)
+                .setUserPassword(userpassword)
+                .setUserEmail(email);
+        //ввожу основание
+        userPageComponents.reasonForm(reason, type, number, name, date);
+        //кликаю создать
+        userPageComponents.userCreateSubmitButton();
+        //проверяю пользователя в таблице
+        userPageObjects.newUserCheck(String.valueOf(word));
+        //кликаю кнопку информации
+        userPageComponents.clickInfoButton();
+        //сверяю данные
+        userPageComponents.userInfoCheck(
+                String.valueOf(word),
+                String.valueOf(word),
+                String.valueOf(word),
+                String.valueOf(word),
+                word + adlogin,
+                kadrid, email, activechek, usertypenone);
+
+    }
+
 }
 
