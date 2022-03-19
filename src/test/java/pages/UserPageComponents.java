@@ -169,9 +169,10 @@ public class UserPageComponents {
 
     @Step("Проверяем сообщения о некорректной дате временного пользователя")
     public UserPageComponents wrongTemporaryDateChek() {
-        SelenideElement wrongTemporaryDateStart = $("#user_temporary");
-        SelenideElement wrongTemporaryDateEnd = $("#user_temporary");
-        wrongTemporaryDateEnd.shouldBe(visible).click();
+        SelenideElement wrongTemporaryDateStart = $("div.mr-2 .dx-invalid-message-content");
+        SelenideElement wrongTemporaryDateEnd = $("div:nth-child(2) > div > .dx-invalid > .dx-invalid-message");
+        wrongTemporaryDateStart.shouldBe(visible).shouldHave(text("Дата не может быть раньше текущей"));
+        wrongTemporaryDateEnd.shouldBe(visible).shouldHave(text("Дата не может быть раньше текущей или раньше «даты от»"));
         return this;
     }
 

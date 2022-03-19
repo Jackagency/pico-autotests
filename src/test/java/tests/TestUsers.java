@@ -30,6 +30,8 @@ public class TestUsers extends TestBase {
     String usertypenone = "Нет типа";
     String usertypexpert = "Эксперт";
     String usertypservice = "Служебный сервис";
+    String wrondDateStart = "17.03.2021";
+    String wrondDateEnd = "18.03.2021";
     //поля основания
     String reason = "because";
     String type = "because2";
@@ -255,6 +257,15 @@ public class TestUsers extends TestBase {
                 .setUserTabel(tabel)
                 .setUserPassword(userpassword)
                 .setUserEmail(email);
+        //выбираю чек-бокс Временно
+        userPageComponents.setTemporaryCheckbox();
+        //устанавливаю некорректный перид
+        userPageObjects.setTemporaryUserPeriod(wrondDateStart, wrondDateEnd);
+        //проверяю наличие и наполнения сообщений об ошибке
+        userPageComponents.wrongTemporaryDateChek();
+        //дважды нажимаю чек-бокс чтобы автоматически подставилась корректная дата
+        userPageComponents.setTemporaryCheckbox();
+        userPageComponents.setTemporaryCheckbox();
         //ввожу основание
         userPageComponents.reasonForm(reason, type, number, name, date);
         //кликаю создать

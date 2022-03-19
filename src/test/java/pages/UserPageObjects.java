@@ -96,8 +96,10 @@ public class UserPageObjects {
     }
     @Step("Устанавливаем период существования временного пользователя")
     public UserPageObjects setTemporaryUserPeriod(String start, String end){
+        SelenideElement userReasonInput = $("[data-id=reason_form_reason]");
         userTemporaryDateStart.setValue(start).pressEnter();
-        userTemporaryDateDate.setValue(end).pressEnter();
+        userTemporaryDateDate.setValue(end);
+        userReasonInput.click(); //кликаю по полю основание чтобы ошибка отобразилась, именно в автотестах она почему-то пропадает, руками все ок
         return this;
     }
 
