@@ -259,13 +259,13 @@ public class TestUsers extends TestBase {
                 .setUserEmail(email);
         //выбираю чек-бокс Временно
         userPageComponents.setTemporaryCheckbox();
-        //устанавливаю некорректный перид
+        //устанавливаю некорректный период
         userPageObjects.setTemporaryUserPeriod(wrondDateStart, wrondDateEnd);
         //проверяю наличие и наполнения сообщений об ошибке
         userPageComponents.wrongTemporaryDateChek();
         //дважды нажимаю чек-бокс чтобы автоматически подставилась корректная дата
         userPageComponents.setTemporaryCheckbox();
-        userPageComponents.setTemporaryCheckbox();
+        userPageComponents.setTemporaryCheckbox(); //баг что при автозаполнении данных в полях, не нажимается нопка "Сохранить"
         //ввожу основание
         userPageComponents.reasonForm(reason, type, number, name, date);
         //кликаю создать
