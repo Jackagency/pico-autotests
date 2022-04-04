@@ -1,9 +1,7 @@
 package tests;
 
-import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.UserPageComponents;
@@ -45,7 +43,6 @@ public class TestUsers extends TestBase {
     @Story("Создание, редактирование, удаление пользователя")
     @DisplayName("User create")
     public void userCreate() {
-        SelenideLogger.addListener("allure", new AllureSelenide());
 
         String word = String.valueOf(randomUtils.randomString());
 
@@ -87,7 +84,6 @@ public class TestUsers extends TestBase {
     @Story("Создание, редактирование, удаление пользователя")
     @DisplayName("User edit")
     public void userEdit() {
-        SelenideLogger.addListener("allure", new AllureSelenide());
 
         //random word
         String word = String.valueOf(randomUtils.randomString());
@@ -154,7 +150,6 @@ public class TestUsers extends TestBase {
     @Story("Создание, редактирование, удаление пользователя")
     @DisplayName("User delete")
     public void userDelete() {
-        SelenideLogger.addListener("allure", new AllureSelenide());
 
         //random word
         String word = String.valueOf(randomUtils.randomString());
@@ -195,7 +190,6 @@ public class TestUsers extends TestBase {
     @Story("Создание, редактирование, удаление пользователя")
     @DisplayName("User expert rights create")
     public void userExpertCreate() {
-        SelenideLogger.addListener("allure", new AllureSelenide());
 
         String word = String.valueOf(randomUtils.randomString());
 
@@ -239,7 +233,6 @@ public class TestUsers extends TestBase {
     @Story("Создание, редактирование, удаление пользователя")
     @DisplayName("Temporary user create")
     public void temporaryUserCreate() {
-        SelenideLogger.addListener("allure", new AllureSelenide());
 
         String word = String.valueOf(randomUtils.randomString());
 

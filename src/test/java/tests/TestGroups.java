@@ -52,8 +52,6 @@ public class TestGroups extends TestBase {
     @ParameterizedTest(name = "Создание группы с названием содержащим {0}")
     void mixedGroupCreate(String groupName, String groupDescription) {
 
-        SelenideLogger.addListener("allure", new AllureSelenide());
-
         userPageComponents.openLoginPage();
         userPageComponents.authorizeSupd(login, password);
         //перехожу на основную вкладку Группы
@@ -75,7 +73,6 @@ public class TestGroups extends TestBase {
     @Test
     @DisplayName("Редактирование группы")
     void groupEdit() {
-        SelenideLogger.addListener("allure", new AllureSelenide());
 
         String word = String.valueOf(randomUtils.randomString());
         String word2 = String.valueOf(randomUtils.randomString());
@@ -118,8 +115,6 @@ public class TestGroups extends TestBase {
     @DisplayName("Удаление группы")
     void groupDelete() {
 
-        SelenideLogger.addListener("allure", new AllureSelenide());
-
         String word = String.valueOf(randomUtils.randomString());
 
         userPageComponents.openLoginPage();
@@ -157,10 +152,7 @@ public class TestGroups extends TestBase {
     @DisplayName("Создание группы с неуникальной сигнатурой")
     void notUniqueSign() {
 
-        SelenideLogger.addListener("allure", new AllureSelenide());
-
         String word = String.valueOf(randomUtils.randomString());
-
 
         userPageComponents.openLoginPage();
         userPageComponents.authorizeSupd(login, password);

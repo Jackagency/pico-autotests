@@ -24,8 +24,23 @@ dependencies {
     testImplementation 'com.codeborne:selenide:6.3.2'
     testImplementation 'io.qameta.allure:allure-selenide:2.17.3'
     testImplementation 'org.aspectj:aspectjweaver:1.9.8'
+    testImplementation 'org.assertj:assertj-core:3.22.0'
 
     implementation 'com.github.javafaker:javafaker:1.0.2'
+    implementation 'org.aeonbits.owner:owner:1.0.12'
+}
+
+tasks.withType(Test) {
+    systemProperties(System.getProperties())
+    useJUnitPlatform()
+
+    testLogging {
+        lifecycle {
+//            events "started", "failed"
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
 }
 
 allure {
