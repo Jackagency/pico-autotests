@@ -5,6 +5,8 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
 
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -18,7 +20,7 @@ public class GroupPageObjects {
     //actions
     @Step ("Смотрим что в результатах поиска появилась созданная группа")
     public GroupPageObjects newGroupCheck(String groupName) {
-        firstLineInTheTable.shouldBe(visible).shouldHave(text(groupName));
+        firstLineInTheTable.shouldBe((visible), Duration.ofMillis(15000)).shouldHave(text(groupName));
         return this;
     }
     @Step("Вводим сигнатуру группы")

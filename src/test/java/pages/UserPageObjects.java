@@ -23,6 +23,7 @@ public class UserPageObjects {
     SelenideElement userEmailInput = $("#user_email");
     SelenideElement userTemporaryDateStart = $("#user_temporary_date_start");
     SelenideElement userTemporaryDateDate = $("#user_temporary_date_end");
+    SelenideElement temporaryRightsSearchInput = $("#user_access_search");
 
     SelenideElement firstLineInTheTable = $(".dx-column-lines", 1);
 
@@ -100,6 +101,11 @@ public class UserPageObjects {
         userTemporaryDateStart.setValue(start).pressEnter();
         userTemporaryDateDate.setValue(end);
         userReasonInput.click(); //кликаю по полю основание чтобы ошибка отобразилась, именно в автотестах она почему-то пропадает, руками все ок
+        return this;
+    }
+    @Step("Вводим Имя объекта в поле поиска на который хотим выдать временные права")
+    public UserPageObjects temporaryObjectSearch(String module){
+        temporaryRightsSearchInput.setValue(module);
         return this;
     }
 

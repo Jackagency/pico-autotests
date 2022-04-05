@@ -7,8 +7,7 @@ import io.qameta.allure.Step;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 public class UserPageComponents {
 
@@ -175,6 +174,43 @@ public class UserPageComponents {
         wrongTemporaryDateEnd.shouldBe(visible).shouldHave(text("Дата не может быть раньше текущей или раньше «даты от»"));
         return this;
     }
-
+    @Step("Нажимаем чек-бокс пользователя")
+    public UserPageComponents clickUserCheckbox(){
+        SelenideElement userCheckbox = $(".dx-select-checkbox", 1); //кликает первый чек-бокс во всем списке
+        userCheckbox.shouldBe(visible).click();
+        return this;
+    }
+    @Step("Нажимаем кнопку Назначить временные права")
+    public UserPageComponents clickTemporaryRightsButton(){
+        SelenideElement temporaryRightsButton = $x(".//button[contains(.,'Назначить временные права')]");
+        temporaryRightsButton.shouldBe(visible).click();
+        return this;
+    }
+    @Step("Выбираем первый чек-бокс в списке")
+    public UserPageComponents clickObjectsCheckbox(){
+        SelenideElement objectCheckbox = $(".app-user-access-form__table .dx-datagrid-rowsview table tr:nth-child(1) td.dx-command-select > div");
+        objectCheckbox.shouldBe(visible).click();
+        return this;
+    }
+    @Step("Нажимаем кнопку Применить")
+    public UserPageComponents clickSubmitButton(){
+        SelenideElement submitButton = $x(".//button[contains(.,'Применить')]");
+        SelenideElement successMessage = $(".notices.is-bottom > div");
+        submitButton.shouldBe(visible).click();
+        successMessage.shouldBe(visible).shouldHave(text("Временные права назначены"));
+        return this;
+    }
+    @Step("Проверяем первую строчку в таблице групп")
+    public UserPageComponents firstLineGroupTableCheck(){
+        SelenideElement firstLine = $("#groups tr.dx-row.dx-data-row.dx-column-lines td:nth-child(2)");
+        firstLine.shouldHave(text("TEMP_GROUP"));
+        return this;
+    }
+    @Step("Нажимаем на первую строчку в таблице групп")
+    public UserPageComponents firstLineGroupTableClick(){
+        SelenideElement firstLine = $("#groups tr.dx-row.dx-data-row.dx-column-lines td:nth-child(2)");
+        firstLine.click();
+        return this;
+    }
 
 }

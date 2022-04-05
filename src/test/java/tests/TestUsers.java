@@ -1,18 +1,25 @@
 package tests;
 
+import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import pages.GroupPageComponents;
+import pages.GroupPageObjects;
 import pages.UserPageComponents;
 import pages.UserPageObjects;
 import utils.RandomUtils;
+
+import static java.lang.Thread.sleep;
 
 
 public class TestUsers extends TestBase {
 
     UserPageComponents userPageComponents = new UserPageComponents();
     UserPageObjects userPageObjects = new UserPageObjects();
+    GroupPageObjects groupPageObjects = new GroupPageObjects();
+    GroupPageComponents groupPageComponents = new GroupPageComponents();
     RandomUtils randomUtils = new RandomUtils();
 
     //поля авторизации
@@ -36,10 +43,14 @@ public class TestUsers extends TestBase {
     String number = "3234";
     String name = "Petrov Ivan Dmitrievich";
     String date = "30.10.2020";
+    //Объект для выдачи на него прав
+    String object = "GOS";
+    //Сигнатура временной группы
+    String group = "TEMP_GROUP";
 
 
     @Test
-    @Feature("Тестирование влкадки пользователи")
+    @Feature("Тестирование вкладки пользователи")
     @Story("Создание, редактирование, удаление пользователя")
     @DisplayName("User create")
     public void userCreate() {
@@ -76,11 +87,10 @@ public class TestUsers extends TestBase {
                 String.valueOf(word),
                 word + adlogin,
                 kadrid, email, activechek, usertypenone);
-
     }
 
     @Test
-    @Feature("Тестирование влкадки пользователи")
+    @Feature("Тестирование вкладки пользователи")
     @Story("Создание, редактирование, удаление пользователя")
     @DisplayName("User edit")
     public void userEdit() {
@@ -142,11 +152,10 @@ public class TestUsers extends TestBase {
                 String.valueOf(word2),
                 word + adlogin,
                 kadrid, email, activechek, usertypservice);
-
     }
 
     @Test
-    @Feature("Тестирование влкадки пользователи")
+    @Feature("Тестирование вкладки пользователи")
     @Story("Создание, редактирование, удаление пользователя")
     @DisplayName("User delete")
     public void userDelete() {
@@ -186,7 +195,7 @@ public class TestUsers extends TestBase {
     }
 
     @Test
-    @Feature("Тестирование влкадки пользователи")
+    @Feature("Тестирование вкладки пользователи")
     @Story("Создание, редактирование, удаление пользователя")
     @DisplayName("User expert rights create")
     public void userExpertCreate() {
@@ -229,7 +238,7 @@ public class TestUsers extends TestBase {
     }
 
     @Test
-    @Feature("Тестирование влкадки пользователи")
+    @Feature("Тестирование вкладки пользователи")
     @Story("Создание, редактирование, удаление пользователя")
     @DisplayName("Temporary user create")
     public void temporaryUserCreate() {
@@ -275,8 +284,57 @@ public class TestUsers extends TestBase {
                 String.valueOf(word),
                 word + adlogin,
                 kadrid, email, activechek, usertypenone);
-
     }
 
+    @Test
+    @Feature("Тестирование вкладки пользователи")
+    @Story("Выдача временных прав пользователю")
+    @DisplayName("Temporary right for user create")
+    public void temporaryRightCreate() {
+
+        String word = String.valueOf(randomUtils.randomString());
+
+        userPageComponents.openLoginPage();
+        userPageComponents.authorizeSupd(login, password);
+        userPageComponents.userCreateButton();
+        //ввожу данные пользователя
+        userPageObjects
+                .setUserSurname(String.valueOf(word))
+                .setUsetName(String.valueOf(word))
+                .setUserPatronymic(String.valueOf(word))
+                .setUserLogin(String.valueOf(word))
+                .setUserAdlogin(word + adlogin)
+                .setUserKadrId(kadrid)
+                .setUserTabel(tabel)
+                .setUserPassword(userpassword)
+                .setUserEmail(email);
+        //ввожу основание
+        userPageComponents.reasonForm(reason, type, number, name, date);
+        //кликаю создать
+        userPageComponents.userCreateSubmitButton();
+        //проверяю пользователя в таблице
+        userPageObjects.newUserCheck(String.valueOf(word));
+        //выбираю чек-бокс пользователя
+        userPageComponents.clickUserCheckbox();
+        //Нажимаю кнопку Назначить временные права
+        userPageComponents.clickTemporaryRightsButton();
+        //Ввожу имя объекта в поле поиска
+        userPageObjects.temporaryObjectSearch(object);
+        //Выбираю первый чек-бокс в списке
+        userPageComponents.clickObjectsCheckbox();
+        //ввожу основание
+        userPageComponents.reasonForm(reason, type, number, name, date);
+        //Нажимаю применить временные права и проверяю сообщение об успешнй выдаче прав
+        userPageComponents.clickSubmitButton();
+        //Проверяю наличие записи о временной группе
+        userPageComponents.firstLineGroupTableCheck();
+        //Кликаю на временную группу в таблице
+        userPageComponents.firstLineGroupTableClick();
+        Selenide.switchTo().window(1); //переключаю вкладку
+        //Проверяем что группа отображается на вкладке группы
+        groupPageObjects.newGroupCheck(group);
+        //Проверяем что в группу входит созданные пользователь
+        groupPageComponents.firstLineUsersTableCheck(word);
+    }
 }
 

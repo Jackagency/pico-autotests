@@ -7,6 +7,7 @@ import io.qameta.allure.Step;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class GroupPageComponents {
@@ -84,4 +85,13 @@ public class GroupPageComponents {
         errorMassage.shouldBe(visible).shouldHave(text(text));
         return this;
     }
+    @Step("Проверяем первую строчку в таблице пользователей")
+    public GroupPageComponents firstLineUsersTableCheck(String surname){
+        SelenideElement firstLine = $("#users tr.dx-row.dx-data-row.dx-column-lines td:nth-child(2) div div a");
+        $(byText("Все пользователи")).click();
+        $(byText("Только связанные")).click();//перекликиваю чек-боксы иначе список не грузится, руками все ок
+        firstLine.shouldHave(text(surname));
+        return this;
+    }
+
 }

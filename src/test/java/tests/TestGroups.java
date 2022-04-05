@@ -39,6 +39,7 @@ public class TestGroups extends TestBase {
     String samegrouperror = "Ошибка запроса. Группа с данной сигнатурой уже существует";
 
 
+
     static Stream<Arguments> mixedGroupCreateProvider() {
         Faker faker = new Faker();
 
@@ -182,8 +183,6 @@ public class TestGroups extends TestBase {
         groupPageComponents.clickGroupSubmitButtonWithError();
         //проверяю появление и наполнение ошибки
         groupPageComponents.checkErrorMassage(samegrouperror);
-
-
     }
 
 
