@@ -11,8 +11,6 @@ import pages.UserPageComponents;
 import pages.UserPageObjects;
 import utils.RandomUtils;
 
-import static java.lang.Thread.sleep;
-
 
 public class TestUsers extends TestBase {
 

@@ -1,8 +1,6 @@
 package tests;
 
-import com.codeborne.selenide.logevents.SelenideLogger;
 import com.github.javafaker.Faker;
-import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,7 +11,6 @@ import pages.GroupPageObjects;
 import pages.UserPageComponents;
 import utils.RandomUtils;
 
-import java.util.Random;
 import java.util.stream.Stream;
 
 import static utils.RandomUtils.getRandomString;

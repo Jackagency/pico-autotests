@@ -17,22 +17,41 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-    testImplementation 'com.codeborne:selenide:6.3.2'
-    testImplementation 'io.qameta.allure:allure-selenide:2.17.3'
-    testImplementation 'org.aspectj:aspectjweaver:1.9.8'
-    testImplementation 'org.assertj:assertj-core:3.22.0'
+def allureVersion = "2.17.3",
+    selenideVersion = "6.3.2",
+    junitVersion = "5.8.2"
 
-    implementation 'com.github.javafaker:javafaker:1.0.2'
-    implementation 'org.aeonbits.owner:owner:1.0.12'
+
+dependencies {
+    testImplementation(
+            "org.aspectj:aspectjweaver:1.9.8",
+            "com.codeborne:selenide:$selenideVersion",
+            "io.qameta.allure:allure-selenide:$allureVersion",
+            "io.rest-assured:rest-assured:4.3.1",
+            'com.github.javafaker:javafaker:1.0.2',
+            "io.qameta.allure:allure-rest-assured:$allureVersion",
+            "org.aeonbits.owner:owner:1.0.12",
+            "org.assertj:assertj-core:3.22.0",
+            "org.junit.jupiter:junit-jupiter:$junitVersion",
+            "org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testRuntimeOnly(
+            "org.slf4j:slf4j-simple:1.7.29",
+            "org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
 
 tasks.withType(Test) {
     systemProperties(System.getProperties())
     useJUnitPlatform()
+
+    if (System.getProperty("threads") != null) {
+        systemProperties += [
+                'junit.jupiter.execution.parallel.enabled'                 : true,
+                'junit.jupiter.execution.parallel.mode.default'            : 'concurrent',
+                'junit.jupiter.execution.parallel.mode.classes.default'    : 'concurrent',
+                'junit.jupiter.execution.parallel.config.strategy'         : 'fixed',
+                'junit.jupiter.execution.parallel.config.fixed.parallelism': System.getProperty("threads").toInteger()
+        ]
+    }
 
     testLogging {
         lifecycle {
