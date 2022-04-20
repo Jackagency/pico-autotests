@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id "io.qameta.allure" version "2.9.6"
+    id "io.freefair.lombok" version "6.0.0-m2"
 }
 
 
@@ -19,11 +20,14 @@ repositories {
 
 def allureVersion = "2.17.3",
     selenideVersion = "6.3.2",
+    restAssuredVersion = "5.0.1",
     junitVersion = "5.8.2"
 
 
 dependencies {
     testImplementation(
+            "io.rest-assured:rest-assured:$restAssuredVersion",
+            "io.rest-assured:json-schema-validator:$restAssuredVersion",
             "org.aspectj:aspectjweaver:1.9.8",
             "com.codeborne:selenide:$selenideVersion",
             "io.qameta.allure:allure-selenide:$allureVersion",
@@ -76,7 +80,6 @@ allure {
         version.set("2.17.2")
     }
 }
-
 
 
 test {
