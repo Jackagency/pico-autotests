@@ -44,7 +44,7 @@ public class CreationTestData {
 
         given()
                 .filter(withCustomTemplates())
-                .header("Authorization", "Bearer" + authToken.picoGetToken())
+                .header("Authorization", "Bearer " + authToken.picoGetToken())
                 .body(userFields)
                 .contentType(JSON)
                 .body(userFields)
