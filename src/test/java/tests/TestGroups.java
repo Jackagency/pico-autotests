@@ -23,9 +23,6 @@ public class TestGroups extends TestBase {
     RandomUtils randomUtils = new RandomUtils();
 
 
-    //поля авторизации
-    String login = "admin";
-    String password = "123";
     //поля основания
     String reason = "because";
     String type = "because2";

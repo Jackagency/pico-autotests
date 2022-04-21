@@ -25,9 +25,6 @@ public class TestUsers extends TestBase {
     RandomUtils randomUtils = new RandomUtils();
 
 
-    //поля авторизации
-    String login = "admin";
-    String password = "123";
     //поля пользователя
     String adlogin = "@kinef.lcl";
     String kadrid = "1112223334";
@@ -117,7 +114,7 @@ public class TestUsers extends TestBase {
                 .setUserAdlogin(word2 + adlogin)
                 .setUserKadrId(kadrid)
                 .setUserTabel(tabel)
-                .setUserPassword(password)
+                .setUserPassword(userpassword)
                 .setUserEmail(email);
         //выбираю чек-бокс Служебный сервис
         userPageComponents.setServiceCheckbox();
