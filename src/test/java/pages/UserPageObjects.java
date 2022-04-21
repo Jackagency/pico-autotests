@@ -7,6 +7,7 @@ import org.openqa.selenium.Keys;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.sleep;
 
 public class UserPageObjects {
 
@@ -72,15 +73,13 @@ public class UserPageObjects {
         return this;
     }
     @Step("Вносим Email пользователя")
-    public UserPageObjects setUserEmail(String email) {
+    public void setUserEmail(String email) {
         userEmailInput.scrollIntoView(false).sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         userEmailInput.scrollIntoView(false).setValue(email);
-        return this;
     }
     @Step("Проверяем что новый пользователь отображается в списке")
-    public UserPageObjects newUserCheck(String surname){
+    public void newUserCheck(String surname){
         firstLineInTheTable.shouldBe(visible).shouldHave(text(surname));
-        return this;
     }
     @Step("Очищаем стрые значения в полях")
     public UserPageObjects clearUserCreationFields(){
@@ -91,22 +90,20 @@ public class UserPageObjects {
         return this;
     }
     @Step("Ищем пользователя через поиск")
-    public UserPageObjects userSearch(String value){
+    public void userSearch(String value){
         userSearchInput.setValue(value).pressEnter();
-        return this;
+        sleep(3000);
     }
     @Step("Устанавливаем период существования временного пользователя")
-    public UserPageObjects setTemporaryUserPeriod(String start, String end){
+    public void setTemporaryUserPeriod(String start, String end){
         SelenideElement userReasonInput = $("[data-id=reason_form_reason]");
         userTemporaryDateStart.setValue(start).pressEnter();
         userTemporaryDateDate.setValue(end);
         userReasonInput.click(); //кликаю по полю основание чтобы ошибка отобразилась, именно в автотестах она почему-то пропадает, руками все ок
-        return this;
     }
     @Step("Вводим Имя объекта в поле поиска на который хотим выдать временные права")
-    public UserPageObjects temporaryObjectSearch(String module){
+    public void temporaryObjectSearch(String module){
         temporaryRightsSearchInput.setValue(module);
-        return this;
     }
 
 

@@ -1,7 +1,5 @@
 package tests;
 
-import org.junit.jupiter.api.Test;
-
 import static io.restassured.RestAssured.given;
 import static listeners.CustomAllureListener.withCustomTemplates;
 
@@ -9,8 +7,7 @@ public class AuthToken {
 
     public String picoGetToken() {
 
-        String accessToken =
-        given()
+        return given()
                 .filter(withCustomTemplates())
                 .contentType("application/x-www-form-urlencoded")
                 .formParam("username", "admin")
@@ -20,6 +17,5 @@ public class AuthToken {
                 .log().status()
                 .statusCode(200)
                 .extract().path("accessToken");
-        return accessToken;
     }
 }

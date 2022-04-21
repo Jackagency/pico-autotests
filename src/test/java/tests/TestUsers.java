@@ -1,6 +1,7 @@
 package tests;
 
 import com.codeborne.selenide.Selenide;
+import com.github.javafaker.Faker;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +12,8 @@ import pages.UserPageComponents;
 import pages.UserPageObjects;
 import utils.RandomUtils;
 
+import java.util.Locale;
+
 
 public class TestUsers extends TestBase {
 
@@ -18,7 +21,9 @@ public class TestUsers extends TestBase {
     UserPageObjects userPageObjects = new UserPageObjects();
     GroupPageObjects groupPageObjects = new GroupPageObjects();
     GroupPageComponents groupPageComponents = new GroupPageComponents();
+    CreationTestData creationTestData = new CreationTestData();
     RandomUtils randomUtils = new RandomUtils();
+
 
     //поля авторизации
     String login = "admin";
@@ -55,13 +60,15 @@ public class TestUsers extends TestBase {
 
         String word = String.valueOf(randomUtils.randomString());
 
-        userPageComponents.openLoginPage();
-        userPageComponents.authorizeSupd(login, password);
+        Faker faker = new Faker(new Locale("ru"));
+        String username = faker.name().firstName();
+        String userSurname = faker.name().lastName();
+
         userPageComponents.userCreateButton();
         //ввожу данные пользователя
         userPageObjects
-                .setUserSurname(String.valueOf(word))
-                .setUsetName(String.valueOf(word))
+                .setUserSurname(String.valueOf(userSurname))
+                .setUsetName(String.valueOf(username))
                 .setUserPatronymic(String.valueOf(word))
                 .setUserLogin(String.valueOf(word))
                 .setUserAdlogin(word + adlogin)
@@ -79,8 +86,8 @@ public class TestUsers extends TestBase {
         userPageComponents.clickInfoButton();
         //сверяю данные
         userPageComponents.userInfoCheck(
-                String.valueOf(word),
-                String.valueOf(word),
+                String.valueOf(userSurname),
+                String.valueOf(username),
                 String.valueOf(word),
                 String.valueOf(word),
                 word + adlogin,
@@ -94,28 +101,10 @@ public class TestUsers extends TestBase {
     public void userEdit() {
 
         //random word
-        String word = String.valueOf(randomUtils.randomString());
         String word2 = String.valueOf(randomUtils.randomString());
 
-        userPageComponents.openLoginPage();
-        userPageComponents.authorizeSupd(login, password);
-        userPageComponents.userCreateButton();
-        //ввожу данные пользователя
-        userPageObjects
-                .setUserSurname(String.valueOf(word))
-                .setUsetName(String.valueOf(word))
-                .setUserPatronymic(String.valueOf(word))
-                .setUserLogin(String.valueOf(word))
-                .setUserKadrId(kadrid)
-                .setUserTabel(tabel)
-                .setUserPassword(userpassword)
-                .setUserEmail(email);
-        //ввожу основание
-        userPageComponents.reasonForm(reason, type, number, name, date);
-        //кликаю создать
-        userPageComponents.userCreateSubmitButton();
-        //проверяю пользователя в таблице
-        userPageObjects.newUserCheck(String.valueOf(word));
+        //создаю пользователя через апи и ищу его в таблице
+        userPageObjects.userSearch(creationTestData.userCreate());
         //Ищу и нажимаю кнопку редактировать
         userPageComponents.clickActionButton().clickUserEditButton();
         //меняю значения на новые
@@ -125,7 +114,7 @@ public class TestUsers extends TestBase {
                 .setUsetName(String.valueOf(word2))
                 .setUserPatronymic(String.valueOf(word2))
                 .setUserLogin(String.valueOf(word2))
-                .setUserAdlogin(word + adlogin)
+                .setUserAdlogin(word2 + adlogin)
                 .setUserKadrId(kadrid)
                 .setUserTabel(tabel)
                 .setUserPassword(password)
@@ -148,7 +137,7 @@ public class TestUsers extends TestBase {
                 String.valueOf(word2),
                 String.valueOf(word2),
                 String.valueOf(word2),
-                word + adlogin,
+                word2 + adlogin,
                 kadrid, email, activechek, usertypservice);
     }
 
@@ -158,28 +147,10 @@ public class TestUsers extends TestBase {
     @DisplayName("User delete")
     public void userDelete() {
 
-        //random word
-        String word = String.valueOf(randomUtils.randomString());
+        String user = creationTestData.userCreate();
 
-        userPageComponents.openLoginPage();
-        userPageComponents.authorizeSupd(login, password);
-        userPageComponents.userCreateButton();
-        //ввожу данные пользователя
-        userPageObjects
-                .setUserSurname(String.valueOf(word))
-                .setUsetName(String.valueOf(word))
-                .setUserPatronymic(String.valueOf(word))
-                .setUserLogin(String.valueOf(word))
-                .setUserKadrId(kadrid)
-                .setUserTabel(tabel)
-                .setUserPassword(userpassword)
-                .setUserEmail(email);
-        //ввожу основание
-        userPageComponents.reasonForm(reason, type, number, name, date);
-        //кликаю создать
-        userPageComponents.userCreateSubmitButton();
-        //проверяю пользователя в таблице
-        userPageObjects.newUserCheck(String.valueOf(word));
+        //создаю пользователя через апи и ищу его в таблице
+        userPageObjects.userSearch(user);
         //Ищу и нажимаю кнопку удалить
         userPageComponents.clickActionButton().clickUserDeleteButton();
         //ввожу основание
@@ -187,7 +158,7 @@ public class TestUsers extends TestBase {
         //кликаю подтвердить
         userPageComponents.userDeleteSubmitButton();
         //ищу удаленного пользователя
-        userPageObjects.userSearch(String.valueOf(word));
+        userPageObjects.userSearch(user);
         //убеждаюсь что список пуст
         userPageComponents.emptyTableCheck();
     }
@@ -200,8 +171,7 @@ public class TestUsers extends TestBase {
 
         String word = String.valueOf(randomUtils.randomString());
 
-        userPageComponents.openLoginPage();
-        userPageComponents.authorizeSupd(login, password);
+
         userPageComponents.userCreateButton();
         //ввожу данные пользователя
         userPageObjects
@@ -243,8 +213,7 @@ public class TestUsers extends TestBase {
 
         String word = String.valueOf(randomUtils.randomString());
 
-        userPageComponents.openLoginPage();
-        userPageComponents.authorizeSupd(login, password);
+
         userPageComponents.userCreateButton();
         //ввожу данные пользователя
         userPageObjects
@@ -290,28 +259,10 @@ public class TestUsers extends TestBase {
     @DisplayName("Temporary right for user create")
     public void temporaryRightCreate() {
 
-        String word = String.valueOf(randomUtils.randomString());
+        String user = creationTestData.userCreate();
 
-        userPageComponents.openLoginPage();
-        userPageComponents.authorizeSupd(login, password);
-        userPageComponents.userCreateButton();
-        //ввожу данные пользователя
-        userPageObjects
-                .setUserSurname(String.valueOf(word))
-                .setUsetName(String.valueOf(word))
-                .setUserPatronymic(String.valueOf(word))
-                .setUserLogin(String.valueOf(word))
-                .setUserAdlogin(word + adlogin)
-                .setUserKadrId(kadrid)
-                .setUserTabel(tabel)
-                .setUserPassword(userpassword)
-                .setUserEmail(email);
-        //ввожу основание
-        userPageComponents.reasonForm(reason, type, number, name, date);
-        //кликаю создать
-        userPageComponents.userCreateSubmitButton();
-        //проверяю пользователя в таблице
-        userPageObjects.newUserCheck(String.valueOf(word));
+        //создаю пользователя через апи и ищу его в таблице
+        userPageObjects.userSearch(user);
         //выбираю чек-бокс пользователя
         userPageComponents.clickUserCheckbox();
         //Нажимаю кнопку Назначить временные права
@@ -332,7 +283,7 @@ public class TestUsers extends TestBase {
         //Проверяем что группа отображается на вкладке группы
         groupPageObjects.newGroupCheck(group);
         //Проверяем что в группу входит созданные пользователь
-        groupPageComponents.firstLineUsersTableCheck(word);
+        groupPageComponents.firstLineUsersTableCheck(user);
     }
 }
 

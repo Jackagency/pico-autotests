@@ -1,22 +1,32 @@
 package tests;
 
-import com.beust.ah.A;
+import com.github.javafaker.Faker;
 import models.lombok.ModificationReasonLombok;
 import models.lombok.UserFieldsLombok;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.json.Json;
+import utils.RandomUtils;
+
+import java.util.Locale;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static listeners.CustomAllureListener.withCustomTemplates;
 
 public class CreationTestData {
-    @Test
-    public void userCreate() {
+
+    public String userCreate() {
         UserFieldsLombok userFields = new UserFieldsLombok();
         ModificationReasonLombok modificationReason = new ModificationReasonLombok();
         AuthToken authToken = new AuthToken();
         authToken.picoGetToken();
+
+        RandomUtils randomUtils = new RandomUtils();
+
+        String word = String.valueOf(randomUtils.randomString());
+
+        Faker faker = new Faker(new Locale("ru"));
+        String name = faker.name().firstName();
+        String surname = faker.name().lastName();
+
 
         modificationReason.setReconciliationDate(null);
         modificationReason.setReconciliationUser("");
@@ -25,10 +35,10 @@ public class CreationTestData {
         modificationReason.setComment("reason-c");
         modificationReason.setReasonType("reason-t");
 
-        userFields.setName("Петр");
-        userFields.setSurname("Петров");
-        userFields.setPatronymic("Петрович");
-        userFields.setLogin("petrovich");
+        userFields.setName(name);
+        userFields.setSurname(surname);
+        userFields.setPatronymic(word);
+        userFields.setLogin(word);
         userFields.setLdapLogin("");
         userFields.setPassword("123");
         userFields.setExternalPassword(false);
@@ -41,20 +51,20 @@ public class CreationTestData {
         userFields.setBlockEnd("");
         userFields.setModificationReason(modificationReason);
 
-
-        given()
-                .filter(withCustomTemplates())
-                .header("Authorization", "Bearer " + authToken.picoGetToken())
-                .body(userFields)
-                .contentType(JSON)
-                .body(userFields)
-                .post("http://192.168.151.19:8080/pico/api/v1/users")
-                .then()
-                .log().body()
-                .log().status()
-                .statusCode(200);
-
-
+        String login =
+                given()
+                        .filter(withCustomTemplates())
+                        .header("Authorization", "Bearer " + authToken.picoGetToken())
+                        .body(userFields)
+                        .contentType(JSON)
+                        .body(userFields)
+                        .post("http://192.168.151.19:8080/pico/api/v1/users")
+                        .then()
+                        .log().status()
+                        .statusCode(201)
+                        .extract().path("login");
+        System.out.println("Пользователь с логином: " + login + " создан");
+        return login;
     }
 }
 

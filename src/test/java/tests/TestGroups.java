@@ -50,8 +50,6 @@ public class TestGroups extends TestBase {
     @ParameterizedTest(name = "Создание группы с названием содержащим {0}")
     void mixedGroupCreate(String groupName, String groupDescription) {
 
-        userPageComponents.openLoginPage();
-        userPageComponents.authorizeSupd(login, password);
         //перехожу на основную вкладку Группы
         groupPageComponents.mainGroupClick();
         //кликаю "Создать"
@@ -75,8 +73,6 @@ public class TestGroups extends TestBase {
         String word = String.valueOf(randomUtils.randomString());
         String word2 = String.valueOf(randomUtils.randomString());
 
-        userPageComponents.openLoginPage();
-        userPageComponents.authorizeSupd(login, password);
         //перехожу на основную вкладку Группы
         groupPageComponents.mainGroupClick();
         //кликаю "Создать"
@@ -115,8 +111,7 @@ public class TestGroups extends TestBase {
 
         String word = String.valueOf(randomUtils.randomString());
 
-        userPageComponents.openLoginPage();
-        userPageComponents.authorizeSupd(login, password);
+
         //перехожу на основную вкладку Группы
         groupPageComponents.mainGroupClick();
         //кликаю "Создать"
@@ -152,8 +147,6 @@ public class TestGroups extends TestBase {
 
         String word = String.valueOf(randomUtils.randomString());
 
-        userPageComponents.openLoginPage();
-        userPageComponents.authorizeSupd(login, password);
         //перехожу на основную вкладку Группы
         groupPageComponents.mainGroupClick();
         //кликаю "Создать"
