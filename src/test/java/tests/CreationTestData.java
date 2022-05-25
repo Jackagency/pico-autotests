@@ -1,6 +1,7 @@
 package tests;
 
 import com.github.javafaker.Faker;
+import io.qameta.allure.Step;
 import models.lombok.ModificationReasonLombok;
 import models.lombok.UserFieldsLombok;
 import utils.RandomUtils;
@@ -12,7 +13,7 @@ import static io.restassured.http.ContentType.JSON;
 import static listeners.CustomAllureListener.withCustomTemplates;
 
 public class CreationTestData {
-
+@Step("Создаю пользьвателя через API")
     public String userCreate() {
         UserFieldsLombok userFields = new UserFieldsLombok();
         ModificationReasonLombok modificationReason = new ModificationReasonLombok();
